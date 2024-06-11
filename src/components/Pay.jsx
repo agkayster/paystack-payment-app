@@ -30,16 +30,19 @@ const Pay = () => {
 
 	return (
 		<div>
+			<div className='flex items-center justify-center border w-full h-16 bg-green-500'>
+				<h1 className='text-white font-bold text-lg'>PAYMENT PAGE</h1>
+			</div>
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
 					className='space-y-4'>
-					<div className='flex flex-col gap-4 py-6 px-6 border-black border-2'>
+					<div className='flex flex-col gap-4 py-6 px-6'>
 						<CustomInput
 							control={form.control}
 							name='userName'
 							label='Username'
-							placeholder='john Doe'
+							placeholder='e.g john Doe'
 						/>
 						<CustomInput
 							control={form.control}
