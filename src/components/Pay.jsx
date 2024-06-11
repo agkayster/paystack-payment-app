@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 /* define our form */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { Loader2 } from 'lucide-react';
 
 import { authFormSchema } from '../lib/utils';
 import { Form } from './ui/form';
 import CustomInput from './CustomInput';
+import { Button } from './ui/button';
 
 const Pay = () => {
+	const [isLoading, setIsLoading] = useState(false);
+
 	const formSchema = authFormSchema();
 
 	// 1. Define your form.
@@ -61,6 +65,22 @@ const Pay = () => {
 							label='Amount'
 							placeholder='e.g 500'
 						/>
+						<Button
+							type='submit'
+							className='bg-[#0179FE] text-16 rounded-lg border font-semibold text-white'
+							disabled={isLoading}>
+							{isLoading ? (
+								<>
+									<Loader2
+										size={20}
+										className='animate-spin'
+									/>{' '}
+									Loading...
+								</>
+							) : (
+								'Submit'
+							)}
+						</Button>
 					</div>
 				</form>
 			</Form>
