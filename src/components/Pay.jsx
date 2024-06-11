@@ -22,11 +22,18 @@ const Pay = () => {
 			lastName: '',
 			amount: '',
 			email: '',
-			password: '',
+			userName: '',
 		},
 	});
 
-	const onSubmit = () => {};
+	const onSubmit = (values) => {
+		setIsLoading(true);
+		console.log('I am submitting');
+		console.log('get values =>', values);
+		// setIsLoading(false);
+	};
+
+	console.log('get loading =>', isLoading);
 
 	return (
 		<div>
@@ -68,22 +75,24 @@ const Pay = () => {
 							label='Amount'
 							placeholder='e.g 500'
 						/>
-						<Button
-							type='submit'
-							className='bg-[#0179FE] text-16 rounded-lg border font-semibold text-white'
-							disabled={isLoading}>
-							{isLoading ? (
-								<>
-									<Loader2
-										size={20}
-										className='animate-spin'
-									/>{' '}
-									Loading...
-								</>
-							) : (
-								'Submit'
-							)}
-						</Button>
+						<div className='flex flex-col gap-4'>
+							<Button
+								type='submit'
+								className='bg-[#0179FE] text-16 rounded-lg border font-semibold text-white'
+								disabled={isLoading}>
+								{isLoading ? (
+									<>
+										<Loader2
+											size={24}
+											className='animate-spin'
+										/>{' '}
+										Loading...
+									</>
+								) : (
+									'Submit'
+								)}
+							</Button>
+						</div>
 					</div>
 				</form>
 			</Form>

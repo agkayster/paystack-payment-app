@@ -18,6 +18,7 @@ const CustomInput = ({ control, name, label, placeholder }) => {
 								<Input
 									placeholder={placeholder}
 									className='text-16 placeholder:text-16 rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500'
+									type='text'
 									{...field}
 								/>
 							</FormControl>
