@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
+import axios from 'axios';
 
 import { authFormSchema } from '../lib/utils';
 import { Form } from './ui/form';
@@ -11,6 +12,8 @@ import { Button } from './ui/button';
 
 const Pay = () => {
 	const [isLoading, setIsLoading] = useState(false);
+
+	const url = 'http://localhost:5000/paystack';
 
 	const formSchema = authFormSchema();
 
@@ -22,15 +25,30 @@ const Pay = () => {
 			lastName: '',
 			amount: '',
 			email: '',
-			userName: '',
 		},
 	});
 
 	const onSubmit = (values) => {
 		setIsLoading(true);
-		console.log('I am submitting');
-		console.log('get values =>', values);
-		// setIsLoading(false);
+
+		try {
+			console.log('I am submitting');
+			console.log('get values =>', values);
+			axios
+				.post(url, values, {
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json;charset=UTF-8',
+					},
+				})
+				.then(({ data }) => {
+					console.log(data);
+				});
+		} catch (error) {
+			console.log('get error =>', error);
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	console.log('get loading =>', isLoading);
@@ -45,12 +63,12 @@ const Pay = () => {
 					onSubmit={form.handleSubmit(onSubmit)}
 					className='space-y-4'>
 					<div className='flex flex-col gap-4 py-6 px-6'>
-						<CustomInput
+						{/* <CustomInput
 							control={form.control}
 							name='userName'
 							label='Username'
 							placeholder='e.g john Doe'
-						/>
+						/> */}
 						<CustomInput
 							control={form.control}
 							name='firstName'

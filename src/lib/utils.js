@@ -12,5 +12,4 @@ export const authFormSchema = () =>
 		lastName: z.string().min(3),
 		amount: z.string().min(2),
 		email: z.string().email(),
-		userName: z.string().min(8),
 	});
