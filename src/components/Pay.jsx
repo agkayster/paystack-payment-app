@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
 import axios from 'axios';
+import { redirect } from 'react-router-dom';
 
 import { authFormSchema } from '../lib/utils';
 import { Form } from './ui/form';
@@ -12,8 +13,12 @@ import { Button } from './ui/button';
 
 const Pay = () => {
 	const [isLoading, setIsLoading] = useState(false);
+	const [userData, setUserData] = useState(null);
+	const [payResult, setPayResult] = useState(null);
 
-	const url = 'http://localhost:5000/paystack';
+	const url = `http://localhost:5000/paystack?amount=${
+		userData?.amount * 100
+	}&email=${userData?.email}`;
 
 	const formSchema = authFormSchema();
 
@@ -28,21 +33,33 @@ const Pay = () => {
 		},
 	});
 
-	const onSubmit = (values) => {
+	const onSubmit = async (data) => {
 		setIsLoading(true);
 
 		try {
-			console.log('I am submitting');
-			console.log('get values =>', values);
-			axios
-				.post(url, values, {
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json;charset=UTF-8',
-					},
-				})
-				.then(({ data }) => {
-					console.log(data);
+			// console.log('I am submitting');
+			// console.log('get values =>', data);
+			setUserData(data);
+			await axios
+				.get(
+					url,
+					// `http://localhost:5000/paystack?amount=${
+					// 	data?.amount * 100
+					// }&email=${data?.email}`,
+
+					{
+						headers: {
+							'X-Requested-With': 'XMLHttpRequest',
+						},
+					}
+				)
+				.then((response) => {
+					console.log('get response =>', response);
+					let data = response?.data;
+					console.log(data?.data?.authorization_url);
+					setPayResult(data.data.authorization_url);
+					window.location.href = data.data.authorization_url;
+					return redirect('/');
 				});
 		} catch (error) {
 			console.log('get error =>', error);
@@ -50,8 +67,6 @@ const Pay = () => {
 			setIsLoading(false);
 		}
 	};
-
-	console.log('get loading =>', isLoading);
 
 	return (
 		<div>
